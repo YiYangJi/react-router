@@ -10,11 +10,11 @@ export async function loader({ request }) {
   const url = new URL(request.url);
   const q = url.searchParams.get("q");
   const contacts = await getContacts(q);
-  return { contacts };
+  return { contacts, q };
 }
 
 export default function Root() {
-  const { contacts } = useLoaderData();
+  const { contacts, q } = useLoaderData();
   const navigation = useNavigation();
 
   return (
@@ -23,7 +23,7 @@ export default function Root() {
         <h1>React Router Contacts</h1>
         <div>
           <Form id="search-form" role="search">
-            <input id="q" aria-label="Search contacts" placeholder="Search" type="search" name="q" />
+            <input id="q" aria-label="Search contacts" placeholder="Search" type="search" name="q" defaultValue={q} />
             <div id="search-spinner" aria-hidden hidden={true} />
             <div className="sr-only" aria-live="polite"></div>
           </Form>
